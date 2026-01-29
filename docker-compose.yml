@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:                   # Dùng dạng map (không dấu -)
+      DB_HOST: db                  # Tên service db (Docker DNS tự resolve)
+      DB_PORT: "3306"             
+      DB_USER: root
+      DB_PASSWORD: nam123456!
+      DB_NAME: todo_db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0.39       #docker sẽ tự tạo 1 Mysql DB với user mặc định roor pass MYSQL_ROOT_PASSWORD, tự tạo 1 databse MYSQL_DATABASE - còn mogration mình phải tự làm
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: nam123456!
+      MYSQL_DATABASE: todo_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql-data:

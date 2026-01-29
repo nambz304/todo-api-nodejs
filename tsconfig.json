@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Môi trường Node.js hiện đại (2024-2025)
+    "target": "ES2022",                // hoặc ES2020/ESNext – đủ mới để dùng async/await thoải mái
+    "module": "NodeNext",              // Quan trọng: hỗ trợ ESM + import kiểu Node.js - commonJS là sẽ ko co import
+    "moduleResolution": "NodeNext",    // Phải khớp với module ở trên, tránh lỗi resolve module
+
+    // Output & cấu trúc folder
+    "outDir": "./dist",                // Folder build ra (production)
+    "rootDir": "./src",                // Nguồn code (để path alias hoạt động tốt)
+    "baseUrl": "./src",                // Cho phép import tuyệt đối: import { User } from 'entities/User'
+    "paths": {                         // Path alias – rất tiện khi project lớn
+      "@config/*": ["config/*"],
+      "@controllers/*": ["controllers/*"],
+      "@entities/*": ["entities/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@routes/*": ["routes/*"]
+    },
+
+    // TypeORM yêu cầu (decorator metadata)
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    // Type checking nghiêm ngặt (khuyến khích bật)
+    "strict": true,                    // Bật toàn bộ strict mode (noImplicitAny, strictNullChecks...)
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,            // Báo lỗi nếu có biến không dùng
+    "noUnusedParameters": false,      //báo lỗi nếu hàm có khai báo param mà trong hàm ko dùng tới
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Tối ưu & tương thích
+    "esModuleInterop": true,           // Cho phép import default từ CommonJS module
+    "skipLibCheck": true,              // Bỏ check type trong node_modules (nhanh compile hơn)
+    "forceConsistentCasingInFileNames": true, // Tránh lỗi case-sensitive trên Linux/Mac
+    "resolveJsonModule": true,         // Cho phép import JSON (nếu cần config)
+    "sourceMap": true,                 // Debug tốt hơn khi build
+
+    // Libs cần cho Node.js
+    "lib": ["ES2022", "DOM"]           // DOM nếu bạn dùng browser API (không bắt buộc)
+  },
+
+  "include": ["src/**/*.ts"],          // Chỉ compile file trong src
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"]  // Bỏ qua test nếu có
+}
