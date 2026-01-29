@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-// import { Todo } from './todo.js';
+import { Todo } from './todo.js';
 
 @Entity('users')
 export class User {
@@ -18,8 +18,8 @@ export class User {
   @Column({ type: 'enum', enum: ['admin', 'user', 'guest'], default: 'user' })
   role?: 'admin' | 'user' | 'guest';
 
-  @Column()
-  todoId?: number[];
-//   @OneToMany(() => Todo, (todo) => todo.user)
-//   todos?: Todo[];
+  @Column({default: 0})
+  todoId?: number;
+  @OneToMany(() => Todo, (todo) => todo.user)
+  todos?: Todo[];
 }

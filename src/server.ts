@@ -1,6 +1,7 @@
 import express, {type Request, type Response, type NextFunction} from 'express';
 import {AppDataSource} from './config/database.js';//why dùng JS chỗ này
 import todoRoutes from './routes/todoRouter.js'
+import authRoutes from './routes/authRouter.js'
 /*
 - express dung để tạo 1 app/HTTP server: const app = express();
 - Request - kiểu cho đối tượng request -> chút nữa mình sẽ khai báo biến req: Request -> lấy req.body hoặc req.param
@@ -35,13 +36,7 @@ app.use(express.json());
 
 //các routes - to check
 app.use('/todo', todoRoutes);
-// app.get('/:id', todoRoutes);
-// app.post('/create', todoRoutes);
-
-// app.get("/", (req: Request, res: Response) => {
-//     res.send("Hello - đây là get all");
-// });//get all
-
+app.use('/auth', authRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
