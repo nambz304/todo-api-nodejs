@@ -10,7 +10,7 @@ services:
     environment:                   # Dùng dạng map (không dấu -)
       DB_HOST: db                  # Tên service db (Docker DNS tự resolve)
       DB_PORT: "3306"             
-      DB_USER: root
+      DB_USERNAME: root
       DB_PASSWORD: nam123456!
       DB_NAME: todo_db
     restart: unless-stopped
