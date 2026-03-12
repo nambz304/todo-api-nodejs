@@ -1,7 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-// import { AppDataSource } from '../config/database.js';
-// import { User } from '../entities/user.js';
 
 interface JwtPayload {
   id: number;
@@ -9,10 +7,10 @@ interface JwtPayload {
   role: 'admin' | 'user' | 'guest';
 }
 
-declare global {//define thêm 1 trường user của request nữa. thằng này là payload của token - user là optional
-  namespace Express {//truy cập namespace của Express
-    interface Request {//truy cập interface Request
-      user?: User; //thêm option user
+declare global {
+  namespace Express {
+    interface Request {
+      user?: User; 
     }
   }
 }
@@ -33,7 +31,7 @@ export function authenticationMiddleware(req: Request, res: Response, next: Next
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as JwtPayload; //check - tại sao phải ép kiểu
 
     // Attach user payload to request
-    req.user = decoded as any;//to check: tại sao phải ép kiểu
+    req.user = decoded as any;
 
     return next();
   } catch (error) {
@@ -53,7 +51,7 @@ export function authorizationMiddleware(roles: string[]) {
         return res.status(401).json({ message: 'Not authenticated' });
       }
 
-      const userRole = (req.user as any).role;// tại sao phải ép kiểu
+      const userRole = (req.user as any).role;
 
       if (!roles.includes(userRole)) {
         return res.status(403).json({ 
@@ -61,7 +59,7 @@ export function authorizationMiddleware(roles: string[]) {
         });
       }
         console.log("-------------2");
-      return next();//to check: tại sao phải return 
+      return next();
     } catch (error) {
       console.error('Authorization error:', error);
       return res.status(500).json({ message: 'Server error' });

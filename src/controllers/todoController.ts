@@ -6,14 +6,11 @@ import { Todo } from "../entities/todo.js";
 
 
 export async function getAllTodo(req: Request, res: Response){
-        console.log("======11")
 
     const todoRepo = AppDataSource.getRepository(Todo);
-        console.log("======22")
 
     try{
         const allUsers = await todoRepo.find();
-        console.log("======allUsers", allUsers)
         res.json(allUsers);
     }catch(error){
         console.error("Fail to get all todo ", error);
@@ -84,11 +81,10 @@ export async function updateTodo(req:Request, res: Response){
         const result = await userRepo.findOne({
             where: {id: parseInt(todo.id)}
         });
-        if(!result) {//neu ko tim thay id
+        if(!result) {
             return res.status(404).json({message: 'Id not found'});
         }
 
-        //check phai admin or user là chủ của task ko
         if((user.role !== 'admin') && (user.id !== result.userId)) {
             return res.status(403).json({message: 'Do not have permition to update this task'});
         }
@@ -124,11 +120,10 @@ export async function deleteTodo(req:Request, res: Response){
         const result = await userRepo.findOne({
             where: {id: parseInt(id)}
         });
-        if(!result) {//neu ko tim thay id
+        if(!result) {
             return res.status(404).json({message: 'Id not found'});
         }
 
-        //check phai admin or user là chủ của task ko
         if((user.role !== 'admin') && (user.id !== result.userId)) {
             return res.status(403).json({message: 'Do not have permition to delete this task'});
         }

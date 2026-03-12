@@ -5,7 +5,7 @@ import { User } from './user.js';
 @Entity("todos")//table name
 export class Todo {
   @PrimaryGeneratedColumn()
-  id?: number;//chú ý: khởi tạo giá trị chỗ này là như thế nào
+  id?: number;
 
   @Column({ unique: true , nullable: true})
   name?: string;
@@ -26,8 +26,8 @@ export class Todo {
   updatedAt?: Date;
 
     // ✅ Link tới User
-  @ManyToOne(() => User, user => user.todos, { onDelete: 'CASCADE' })// onDelete: 'CASCADE' khi xoá user thì xoá tất cả todo của user đó
-  @JoinColumn({ name: 'userId' })// chỉ định foreignn key - để link 2 table
+  @ManyToOne(() => User, user => user.todos, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
   user?: User;
 
 }
